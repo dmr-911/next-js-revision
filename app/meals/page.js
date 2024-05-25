@@ -2,8 +2,18 @@ import React from "react";
 import classes from "./page.module.css";
 import Link from "next/link";
 import MealsGrid from "@/components/meals/meals-grid";
+import sql from "better-sqlite3";
 
-const Meals = () => {
+const db = sql("meals.db");
+
+const Meals = async () => {
+  const getMeals = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    return db.prepare("SELECT * FROM meals").all();
+  };
+
+  const meals = await getMeals();
+
   return (
     <>
       <header className={classes.header}>
@@ -17,7 +27,7 @@ const Meals = () => {
         </p>
       </header>
       <main className={classes.main}>
-        <MealsGrid meals={[]} />
+        <MealsGrid meals={meals} />
       </main>
     </>
   );
