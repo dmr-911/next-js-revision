@@ -1,12 +1,12 @@
-import Common from '@/components/Common'
-import React from 'react'
+import Common from "../../../components/Common";
+import React from "react";
 
-const page = () => {
+const Share = () => {
   return (
     <div>
-        <Common/>
+      <Common />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Share;
