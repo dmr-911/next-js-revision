@@ -2,10 +2,14 @@ import React from "react";
 import classes from "./page.module.css";
 import Image from "next/image";
 import { getMeal } from "@/lib/getMeals";
+import { notFound } from "next/navigation";
 
 const DynamicMeal = async ({ params }) => {
   const meal = await getMeal(params.slug);
 
+  if (!meal) {
+    notFound(); // find the closest not-found/error.js component, next js provides that function
+  }
   meal.instructions = meal.instructions.replace(/\n/g, "<br/>"); // over write meal instructions for actual line break
   return (
     <>
