@@ -1,9 +1,19 @@
+"use client";
+// import { useActionState } from "react";
+import { useFormState } from "react-dom";
 import ImagePicker from "@/components/meals/image-picker";
 import classes from "./page.module.css";
 import { shareMeal } from "@/lib/action";
 import MealsFormSubmit from "@/components/meals/meals-form-submit";
 
+// ***useActionState in Next 14.3.0 canary
+// otherwise useFormState from 'react-dom'
+
 export default function ShareMealPage() {
+  const [state, formAction] = useFormState(shareMeal, {
+    // this hook now send two parameter to action, first one is prevState, second one is formData
+    message: null,
+  }); // this hook takes two params, first one is server action, second one is initial value, returns [state, formAction (which is modified server action)]
   return (
     <>
       <header className={classes.header}>
@@ -13,7 +23,7 @@ export default function ShareMealPage() {
         <p>Or any other meal you feel needs sharing!</p>
       </header>
       <main className={classes.main}>
-        <form className={classes.form} action={shareMeal}>
+        <form className={classes.form} action={formAction}>
           <div className={classes.row}>
             <p>
               <label htmlFor="name">Your name</label>
@@ -43,6 +53,8 @@ export default function ShareMealPage() {
           </p>
           {/* IMAGE PICKER */}
           <ImagePicker label={"Your Image"} name={"image"} />
+
+          {state.message ? <span>{state.message}</span> : null}
           <p className={classes.actions}>
             <MealsFormSubmit />
           </p>
